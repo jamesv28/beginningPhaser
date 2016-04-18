@@ -1,0 +1,78 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Phaser - Making your first game, part 3</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+function preload() {
+
+    game.load.image('sky', 'assets/sky.png');
+    game.load.image('ground', 'assets/platform.png');
+    game.load.image('star', 'assets/star.png');
+    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+
+}
+var platforms;
+function create() {
+
+    //sart the physics game setup
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    //set up the background
+    game.add.sprite(0,0,'sky');
+
+    //group what we want
+    platforms = game.add.group();
+
+    //enable physics for what we want to use
+    platforms.enableBody = true;
+
+    //create the ground
+    var ground = platforms.create(0,game.world.height - 64, 'ground');
+
+    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+    ground.scale.setTo(2,2);
+
+    //keep it from moving away
+    ground.body.immovable = true;
+
+    //  Now let's create two ledges
+    var ledge = platforms.create(400, 400, 'ground');
+
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(-150, 250, 'ground');
+
+    ledge.body.immovable = true;
+
+    player = game.add.sprite(32, game.world.height - 150, 'dude');
+
+    //add the player to the game engine
+    game.physics.arcade.enable(player);
+
+    //give him a little jiggle
+    player.bounce.body.y = 0.2;
+
+
+
+}
+
+function update() {
+}
+
+</script>
+
+</body>
+</html>
